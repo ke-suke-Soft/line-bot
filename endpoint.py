@@ -1,8 +1,13 @@
-from flask import Flask, request, abort
+from linebot import WebhookHandler
+from linebot.exceptions import InvalidSignatureError
 
 app = Flask(__name__)
 
-@app.route('/callback', methods=['POST'])
+# LINE Developers ConsoleでアクセストークンとChannel Secretを設定し、Webhook URLを指定する
+line_bot_api = LineBotApi('YOUR_CHANNEL_ACCESS_TOKEN')
+handler = WebhookHandler('YOUR_CHANNEL_SECRET')
+
+@app.route("/callback", methods=['POST'])
 def callback():
     # リクエストヘッダーから署名検証に必要な値を取得する
     signature = request.headers['X-Line-Signature']
